@@ -1,9 +1,20 @@
 import React from 'react';
+import Appointment from './Appointment';
+import Banner from './Banner';
+import ExpectationalDental from './ExpectationalDental';
+import Info from './Info';
+import Service from './Service';
+import Testimonials from './Testimonials';
 
 const Home = () => {
     return (
         <div>
-            <h2>This is home page</h2>
+            <Banner></Banner>
+            <Info></Info>
+            <Service></Service>
+            <ExpectationalDental></ExpectationalDental>
+            <Appointment></Appointment>
+            <Testimonials></Testimonials>
         </div>
     );
 };
