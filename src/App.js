@@ -7,6 +7,10 @@ import Appointment from './Pages/Appointment/Appointment';
 import Reviews from './Pages/Reviews/Reviews';
 import ContactUs from './Pages/ContactUs/ContactUs';
 import Login from './Pages/Login/Login';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 
 function App() {
@@ -21,6 +25,7 @@ function App() {
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/login" element={<Login />} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

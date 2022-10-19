@@ -1,4 +1,6 @@
 import { format } from 'date-fns';
+import { toast } from 'react-toastify';
+
 import React from 'react';
 
 const BookingModal = ({ treatment, selected, setTreatment }) => {
@@ -6,7 +8,7 @@ const BookingModal = ({ treatment, selected, setTreatment }) => {
 
 
 
-    const handleBooking = event => {
+    const handleBooking = async event => {
         event.preventDefault();
         setTreatment(null)
         const treatmentName = treatment.name
@@ -17,7 +19,9 @@ const BookingModal = ({ treatment, selected, setTreatment }) => {
         const phone = event.target.phone.value;
         const data = { treatmentName, date, slot, name: fullName, email, phone }
         console.log(data);
+            toast('Appointment Booking Added Successfully')
     }
+
     return (
         <div>
             <input type="checkbox" id="booking-modal" className="modal-toggle" />
