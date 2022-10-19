@@ -8,7 +8,7 @@ import Testimonials from './Testimonials';
 
 const Home = () => {
     return (
-        <div>
+        <div className='max-w-screen-max-con'>
             <Banner></Banner>
             <Info></Info>
             <Service></Service>

@@ -4,7 +4,7 @@ import doctor from '../../assets/images/doctor.png'
 
 const Appointment = () => {
     return (
-        <section className='flex justify-center items-center  bg-[url("https://i.ibb.co/LPB4jKh/bg-blue-1.png")] my-24'>
+        <section className='flex justify-center items-center bg-[url("https://i.ibb.co/LPB4jKh/bg-blue-1.png")] my-24'>
             <div className='flex-1 hidden lg:block'>
                 <img src={doctor} alt="" className='mt-[-150px]' />
             </div>
