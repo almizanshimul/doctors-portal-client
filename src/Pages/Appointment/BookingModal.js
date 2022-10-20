@@ -1,9 +1,13 @@
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
+import { useAuthState } from 'react-firebase-hooks/auth';
+
 
 import React from 'react';
+import auth from '../../firebase.init';
 
 const BookingModal = ({ treatment, selected, setTreatment }) => {
+    const [user, loading, error] = useAuthState(auth);
     const { name, slots } = treatment;
 
 
@@ -19,7 +23,7 @@ const BookingModal = ({ treatment, selected, setTreatment }) => {
         const phone = event.target.phone.value;
         const data = { treatmentName, date, slot, name: fullName, email, phone }
         console.log(data);
-            toast('Appointment Booking Added Successfully')
+        toast('Appointment Booking Added Successfully')
     }
 
     return (
@@ -32,11 +36,11 @@ const BookingModal = ({ treatment, selected, setTreatment }) => {
                         <input name='date' type="text" value={format(selected, 'PP')} className="input w-full my-2 border border-[#D6D6D6] border-solid " disabled />
                         <select name='slot' className="select select-bordered w-full">
                             {
-                                slots.map(slot => <option key={slot._id} value={slot}>{slot}</option>)
+                                slots.map((slot, index) => <option key={index} value={slot}>{slot}</option>)
                             }
                         </select>
-                        <input name='fullName' type="text" placeholder="Full Name" className="input w-full my-2 border border-[#D6D6D6] border-solid " />
-                        <input name='email' type="email" placeholder="Email" className="input w-full my-2 border border-[#D6D6D6] border-solid " />
+                        <input name='fullName' disabled type="text" value={user?.displayName || ''} className="input w-full my-2 border border-[#D6D6D6] border-solid " />
+                        <input name='email' disabled type="email" value={user?.email || ''} className="input w-full my-2 border border-[#D6D6D6] border-solid " />
                         <input name='phone' type="number" placeholder="Phone" className="input w-full my-2 border border-[#D6D6D6] border-solid " />
                         <input type="submit" value='Submit' placeholder="Type here" className="btn btn-secondary w-full my-2 text-white " />
                     </form>

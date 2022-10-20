@@ -1,23 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSignInWithGoogle, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
 import Loading from '../Shared/Loading';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
     const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
     const [signInWithEmailAndPassword, user, loading, error,] = useSignInWithEmailAndPassword(auth);
     const { register, handleSubmit, formState: { errors }, } = useForm();
-    const navigate =useNavigate()
+    const navigate = useNavigate();
+    const location = useLocation();
+    let from = location?.state?.from?.pathname || '/'
 
-    if (user || googleUser) {
-        toast('User Successfully Login');
-        // console.log(user);
-        navigate('/')
-    }
+    useEffect(() => {
+        if (user || googleUser) {
+            toast('User Successfully Login');
+            // console.log(user);
+            navigate(from, { replace: true })
+        }
+    }, [user, googleUser, from, navigate])
 
     if (loading || googleLoading) {
         return <Loading></Loading>
