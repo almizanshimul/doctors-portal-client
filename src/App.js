@@ -9,6 +9,7 @@ import ContactUs from './Pages/ContactUs/ContactUs';
 import Login from './Pages/Login/Login';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SignUp from './Pages/Login/SignUp';
 
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/reviews" element={<Reviews />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
       <ToastContainer />
     </div>

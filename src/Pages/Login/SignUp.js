@@ -1,35 +1,37 @@
 import React from 'react';
-import { useSignInWithGoogle, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import auth from '../../firebase.init';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { toast } from 'react-toastify';
+import auth from '../../firebase.init';
 import Loading from '../Shared/Loading';
-import { Link, useNavigate } from 'react-router-dom';
 
-
-const Login = () => {
+const SignUp = () => {
     const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
-    const [signInWithEmailAndPassword, user, loading, error,] = useSignInWithEmailAndPassword(auth);
-    const { register, handleSubmit, formState: { errors }, } = useForm();
-    const navigate =useNavigate()
+    const [createUserWithEmailAndPassword, user, loading, error,] = useCreateUserWithEmailAndPassword(auth);
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+    const { register, handleSubmit, formState: { errors } } = useForm()
+
+    const navigate = useNavigate();
+
 
     if (user || googleUser) {
-        toast('User Successfully Login');
-        // console.log(user);
-        navigate('/')
+        toast('Successfully Register Doctors portal');
     }
 
-    if (loading || googleLoading) {
+    if (loading || googleLoading || updating) {
         return <Loading></Loading>
     }
 
-    if (error || googleError) {
-        toast(<span className='text-red-500'>{error?.message || googleError?.message}</span>)
+    if (error || googleError || updateError) {
+        toast(<span className='text-red-500'>{error?.message || googleError?.message || updateError?.message}</span>)
     }
 
-    // Sign in wiht email and password 
-    const onSubmit = data => {
-        signInWithEmailAndPassword(data.email, data.password)
+    // Sign in with email and password 
+    const onSubmit = async data => {
+        await createUserWithEmailAndPassword(data.email, data.password)
+        await updateProfile({ displayName: data.name });
+        navigate('/appointment')
     }
 
 
@@ -37,13 +39,31 @@ const Login = () => {
         <section className=' flex justify-center items-center min-h-screen'>
             <div className="card w-96 bg-base-100 shadow-xl">
                 <div className="card-body">
-                    <h2 className="card-title justify-center text-3xl">Login</h2>
+                    <h2 className="card-title justify-center text-3xl">Register</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
+                        {/* Name field Label  */}
+                        <label className="label">
+                            <span className="label-text">Full Name</span>
+                        </label>
+                        {/* Name Input field  */}
+                        <input type="text" placeholder="Full Name" className="input input-bordered w-full " {...register("name", {
+                            required: {
+                                value: true,
+                                message: 'Name is Required'
+                            }
+                        })} />
+                        {/* Validation message  */}
+                        <label className="label">
+                            {
+                                errors.name?.type === 'required' &&
+                                <span className="label-text-alt text-red-500">{errors.name.message}</span>
+                            }
+                        </label>
                         {/* Email Label  */}
                         <label className="label">
                             <span className="label-text">Email</span>
                         </label>
-                        {/* Emial inpust field  */}
+                        {/* Email input field  */}
                         <input type="email" placeholder="Email" className="input input-bordered w-full " {...register("email", {
                             required: {
                                 value: true,
@@ -91,9 +111,9 @@ const Login = () => {
                                 <span className="label-text-alt text-red-500">{errors.password.message}</span>
                             }
                         </label>
-                        <input type="submit" value="Login" className="btn w-full mt-5" />
+                        <input type="submit" value="Register" className="btn w-full mt-5" />
                     </form>
-                    <p>New to Doctors Portal <Link to={'/signup'} className='text-primary'>Create New Account</Link></p>
+                    <p>Already an Account? <Link to={'/login'} className='text-primary'>Please Login</Link></p>
                     <div className="divider">OR</div>
                     <button
                         onClick={() => signInWithGoogle()}
@@ -105,4 +125,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default SignUp;
