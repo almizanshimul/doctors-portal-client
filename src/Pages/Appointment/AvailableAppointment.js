@@ -10,7 +10,7 @@ const AvailableAppointment = ({ selected }) => {
 
 
     useEffect(() => {
-        fetch('https://fast-earth-10671.herokuapp.com/services')
+        fetch('http://localhost:4500/services')
             .then(res => res.json())
             .then(data => setServices(data))
     }, [])

@@ -10,11 +10,8 @@ const BookingModal = ({ treatment, selected, setTreatment }) => {
     const [user, loading, error] = useAuthState(auth);
     const { name, slots } = treatment;
 
-
-
     const handleBooking = async event => {
         event.preventDefault();
-        setTreatment(null)
         const treatmentName = treatment.name
         const date = event.target.date.value;
         const slot = event.target.slot.value;
@@ -22,8 +19,33 @@ const BookingModal = ({ treatment, selected, setTreatment }) => {
         const email = event.target.email.value;
         const phone = event.target.phone.value;
         const data = { treatmentName, date, slot, name: fullName, email, phone }
-        console.log(data);
-        toast('Appointment Booking Added Successfully')
+        // const booking = {
+        //     treatmentId: _id,
+        //     treatment:name,
+        //     slot,
+        //     patient:user.email,
+        //     patientName:user.displayName,
+        //     phone
+        // }
+
+
+        fetch('http://localhost:4500/booking', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data);
+                if (data.success) {
+                    toast.success(`Appointment is set, ${date} at ${slot}`)
+                } else {
+                    toast.error(`Already have an Appointment on ${data?.booking?.date} at ${data?.booking?.slot}`)
+                }
+                setTreatment(null)
+            })
     }
 
     return (
