@@ -22,6 +22,9 @@ const Navbar = () => {
         <li><Link to='/appointment'>Appointment</Link></li>
         <li><Link to='/reviews'>Reviews</Link></li>
         <li><Link to='/contact-us'>Contact Us</Link></li>
+        {
+            user && <li><Link to='/dashboard'>Dashboard</Link></li>
+        }
         <li>{
             user
                 ? <button onClick={logout} className="btn btn-secondary text-white">Sign Out</button>
@@ -48,6 +51,10 @@ const Navbar = () => {
                         {menuItems}
                     </ul>
                 </div>
+                <div className='navbar-end lg:hidden'>
+                    <label htmlFor="dashboard-sidebar" className="btn btn-primary drawer-button text-white">Open drawer</label>
+                </div>
+
             </div>
         </div>
     );

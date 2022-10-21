@@ -1,6 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.display-none {
+  display: none;
+}
 
 
 body {
