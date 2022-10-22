@@ -29,7 +29,7 @@ const BookingModal = ({ treatment, selected, setTreatment, refetch }) => {
         // }
 
 
-        fetch('http://localhost:4500/booking', {
+        fetch('https://fast-earth-10671.herokuapp.com/booking', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

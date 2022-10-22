@@ -6,9 +6,9 @@ import UserRow from './UserRow';
 
 const AllUser = () => {
 
-    const { data: users, isLoading, refetch } = useQuery('users', () => fetch(`http://localhost:4500/users`,{
+    const { data: users, isLoading, refetch } = useQuery('users', () => fetch(`https://fast-earth-10671.herokuapp.com/users`, {
         method: 'GET',
-        headers:{
+        headers: {
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
     })
@@ -21,7 +21,7 @@ const AllUser = () => {
     // const [users, setUsers] = useState([])
 
     // useEffect(() => {
-    //     fetch('http://localhost:4500/users')
+    //     fetch('https://fast-earth-10671.herokuapp.com/users')
     //         .then(res => res.json())
     //         .then(data => {
     //             console.log(data);
@@ -46,12 +46,12 @@ const AllUser = () => {
                     <tbody>
                         {/* <!-- row 1 --> */}
                         {
-                            users.map((user, index) => <UserRow 
-                            key={user._id} 
-                            user={user} 
-                            index={index}
-                            refetch={refetch}
-                             ></UserRow>)
+                            users.map((user, index) => <UserRow
+                                key={user._id}
+                                user={user}
+                                index={index}
+                                refetch={refetch}
+                            ></UserRow>)
                         }
                     </tbody>
                 </table>
