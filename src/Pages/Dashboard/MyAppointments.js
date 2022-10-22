@@ -13,7 +13,7 @@ const MyAppointments = () => {
     const navigate = useNavigate();
     useEffect(() => {
         if (user) {
-            fetch(`https://fast-earth-10671.herokuapp.com/booking?email=${user.email}`, {
+            fetch(`http://localhost:4500/booking?email=${user.email}`, {
                 method: 'GET',
                 headers: {
                     'authorization': `Bearer ${localStorage.getItem('accessToken')}`
