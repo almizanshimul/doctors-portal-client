@@ -2,33 +2,36 @@ import React, { useEffect } from 'react';
 import { useSignInWithGoogle, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import { useForm } from "react-hook-form";
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import Loading from '../Shared/Loading';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useToken from '../../hooks/useToken';
 
 
 const Login = () => {
     const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
     const [signInWithEmailAndPassword, user, loading, error,] = useSignInWithEmailAndPassword(auth);
     const { register, handleSubmit, formState: { errors }, } = useForm();
+    const [token] = useToken(user || googleUser)
     const navigate = useNavigate();
     const location = useLocation();
     let from = location?.state?.from?.pathname || '/'
 
+
     useEffect(() => {
-        if (user || googleUser) {
-            toast('User Successfully Login');
+        if (token) {
+            toast.success('User Successfully Login');
             // console.log(user);
             navigate(from, { replace: true })
         }
-    }, [user, googleUser, from, navigate])
+    }, [token, from, navigate])
 
     if (loading || googleLoading) {
         return <Loading></Loading>
     }
 
     if (error || googleError) {
-        toast(<span className='text-red-500'>{error?.message || googleError?.message}</span>)
+        toast.error(<span className='text-red-500'>{error?.message || googleError?.message}</span>)
     }
 
     // Sign in wiht email and password 

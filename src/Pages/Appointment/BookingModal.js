@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 

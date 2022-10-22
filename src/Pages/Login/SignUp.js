@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import auth from '../../firebase.init';
 import Loading from '../Shared/Loading';
+import useToken from '../../hooks/useToken';
 
 const SignUp = () => {
     const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
@@ -12,12 +13,18 @@ const SignUp = () => {
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     const { register, handleSubmit, formState: { errors } } = useForm()
 
+    const [token] = useToken(user || googleUser)
+    const location = useLocation();
+    let from = location?.state?.from?.pathname || '/'
     const navigate = useNavigate();
 
 
-    if (user || googleUser) {
-        toast('Successfully Register Doctors portal');
-    }
+    useEffect(() => {
+        if (token) {
+            toast('Successfully Register Doctors portal');
+            navigate(from, { replace: true })
+        }
+    }, [token, from, navigate])
 
     if (loading || googleLoading || updating) {
         return <Loading></Loading>
@@ -31,7 +38,6 @@ const SignUp = () => {
     const onSubmit = async data => {
         await createUserWithEmailAndPassword(data.email, data.password)
         await updateProfile({ displayName: data.name });
-        navigate('/appointment')
     }
 
 
