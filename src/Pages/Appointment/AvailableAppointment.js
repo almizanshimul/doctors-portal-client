@@ -13,13 +13,13 @@ const AvailableAppointment = ({ selected }) => {
 
 
     // useEffect(() => {
-    //     fetch(`http://localhost:4500/available?date=${formatDate}`)
+    //     fetch(`https://fast-earth-10671.herokuapp.com/available?date=${formatDate}`)
     //         .then(res => res.json())
     //         .then(data => setServices(data))
     // }, [formatDate, treatment])
 
     // REact Query 
-    const { data: services, isLoading, refetch } = useQuery(['available', formatDate], () => fetch(`http://localhost:4500/available?date=${formatDate}`)
+    const { data: services, isLoading, refetch } = useQuery(['available', formatDate], () => fetch(`https://fast-earth-10671.herokuapp.com/available?date=${formatDate}`)
         .then(res => res.json()))
 
     if (isLoading) {

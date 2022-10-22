@@ -6,7 +6,7 @@ import UserRow from './UserRow';
 
 const AllUser = () => {
 
-    const { data: users, isLoading, refetch } = useQuery('users', () => fetch(`http://localhost:4500/users`, {
+    const { data: users, isLoading, refetch } = useQuery('users', () => fetch(`https://fast-earth-10671.herokuapp.com/users`, {
         method: 'GET',
         headers: {
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
@@ -21,7 +21,7 @@ const AllUser = () => {
     // const [users, setUsers] = useState([])
 
     // useEffect(() => {
-    //     fetch('http://localhost:4500/users')
+    //     fetch('https://fast-earth-10671.herokuapp.com/users')
     //         .then(res => res.json())
     //         .then(data => {
     //             console.log(data);

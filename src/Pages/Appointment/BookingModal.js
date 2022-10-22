@@ -8,7 +8,7 @@ import auth from '../../firebase.init';
 
 const BookingModal = ({ treatment, selected, setTreatment, refetch }) => {
     const [user, loading, error] = useAuthState(auth);
-    const { name, slots } = treatment;
+    const { name, slots, price } = treatment;
 
     const handleBooking = async event => {
         event.preventDefault();
@@ -18,7 +18,7 @@ const BookingModal = ({ treatment, selected, setTreatment, refetch }) => {
         const fullName = event.target.fullName.value;
         const email = event.target.email.value;
         const phone = event.target.phone.value;
-        const data = { treatmentName, date, slot, name: fullName, email, phone }
+        const data = { treatmentName, date, slot, price, name: fullName, email, phone }
         // const booking = {
         //     treatmentId: _id,
         //     treatment:name,
@@ -29,7 +29,7 @@ const BookingModal = ({ treatment, selected, setTreatment, refetch }) => {
         // }
 
 
-        fetch('http://localhost:4500/booking', {
+        fetch('https://fast-earth-10671.herokuapp.com/booking', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -52,7 +52,7 @@ const BookingModal = ({ treatment, selected, setTreatment, refetch }) => {
     return (
         <div>
             <input type="checkbox" id="booking-modal" className="modal-toggle" />
-            <div className="modal modal-bottom sm:modal-middle p-2">
+            <div className="modal modal-bottom sm:modal-middle p-2 ">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg text-secondary text-center">Booking For: {name}</h3>
                     <form onSubmit={handleBooking}>

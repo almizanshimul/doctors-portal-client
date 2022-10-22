@@ -8,7 +8,7 @@ const AddDoctor = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm()
 
     const { data: services, isLoading } = useQuery('services', () =>
-        fetch('http://localhost:4500/services-name')
+        fetch('https://fast-earth-10671.herokuapp.com/services-name')
             .then(res => res.json())
     )
 
@@ -47,7 +47,7 @@ const AddDoctor = () => {
                         img: imgurl
                     }
                     // send to your database
-                    fetch('http://localhost:4500/doctor', {
+                    fetch('https://fast-earth-10671.herokuapp.com/doctor', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json',

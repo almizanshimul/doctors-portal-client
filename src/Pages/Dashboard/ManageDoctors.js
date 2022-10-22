@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import Loading from '../Shared/Loading';
 
 const ManageDoctors = () => {
-    const { data: doctors, isLoading, refetch } = useQuery(['doctors'], () => fetch(`http://localhost:4500/doctors`, {
+    const { data: doctors, isLoading, refetch } = useQuery(['doctors'], () => fetch(`https://fast-earth-10671.herokuapp.com/doctors`, {
         headers: {
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
@@ -15,22 +15,24 @@ const ManageDoctors = () => {
     }
     const handleDelete = (e) => {
         const email = e.email
-        fetch(`http://localhost:4500/doctor/${email}`, {
-            method: 'DELETE',
-            headers: {
-                authorization: `Bearer ${localStorage.getItem('accessToken')}`
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.deletedCount > 0) {
-                    window.confirm(`Are you confirm ${e.name} doctor delete`)
-                    toast.success(`Doctor ${e.name} Deleted`)
-                    refetch()
-                } else {
-                    toast.error('Failed to doctor deleted')
+        const confirm = window.confirm(`Are you confirm ${e.name} doctor delete`)
+        if (confirm) {
+            fetch(`https://fast-earth-10671.herokuapp.com/doctor/${email}`, {
+                method: 'DELETE',
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
                 }
             })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.deletedCount > 0) {
+                        toast.success(`Doctor ${e.name} Deleted`)
+                        refetch()
+                    } else {
+                        toast.error('Failed to doctor deleted')
+                    }
+                })
+        }
     }
 
     return (
